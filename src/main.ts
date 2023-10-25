@@ -5,6 +5,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableShutdownHooks();
+
   const config = new DocumentBuilder()
     .setTitle('NestJS Boilerplate API')
     .setDescription('A NestJS template for future projects')
