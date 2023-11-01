@@ -1,21 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 import { booleanTransformer } from 'src/common/transformers/boolean.transformer';
 
 export class CreatePostDto {
+  @IsNotEmpty()
   @ApiProperty()
   title: string;
 
+  @IsNotEmpty()
   @ApiProperty()
   content: string;
 
-  @ApiProperty({ required: false, default: false })
   @Transform(booleanTransformer)
+  @ApiProperty({ required: false, default: false })
   published?: boolean = false;
 
-  @ApiProperty()
+  @IsNotEmpty()
   @Type(() => Number)
   @IsNumber({ allowNaN: false })
+  @ApiProperty()
   authorId: number;
 }
