@@ -6,11 +6,13 @@ import { CategoriesModule } from './categories/categories.module';
 import { ConfigModule } from '@nestjs/config';
 import authConfig from './common/config/auth.config';
 import mailConfig from './common/config/mail.config';
+import { UsersModule } from './user/users.module';
 
 @Module({
   imports: [
     PostsModule,
     CategoriesModule,
+    UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [authConfig, mailConfig],
