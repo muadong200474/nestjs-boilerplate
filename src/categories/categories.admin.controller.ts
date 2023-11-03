@@ -11,7 +11,7 @@ import {
 import { CreateCagetoryDto } from './dto/create-category.dto';
 import { CategoriesService } from './categories.service';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Role } from '@prisma/client';
 import { RoleGuard } from 'src/auth/auth.guard';
@@ -21,6 +21,7 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 @ApiTags('Admin-Categories')
 @Roles(Role.ADMIN)
 @UseGuards(AuthGuard('jwt'), RoleGuard)
+@ApiBearerAuth()
 export class CategoriesAdminController {
   constructor(private readonly categoryService: CategoriesService) {}
 
