@@ -8,7 +8,7 @@ export class UsersAdminController {
 
   @Get()
   async findAll() {
-    return this.userService.findAll({});
+    return this.userService.findAll({ where: { deleted: false } });
   }
 
   @Get(':id')

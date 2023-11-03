@@ -22,7 +22,9 @@ export class PostsController {
 
   @Get()
   findAll() {
-    return this.postsService.findAll({ where: { published: true } });
+    return this.postsService.findAll({
+      where: { published: true, deleted: false },
+    });
   }
 
   @Get(':id')
