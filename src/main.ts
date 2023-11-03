@@ -2,9 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { LoggerFactory } from './logging/factory';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: LoggerFactory(),
+  });
 
   app.enableShutdownHooks();
   app.useGlobalPipes(
@@ -14,8 +17,8 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('NestJS Boilerplate API')
-    .setDescription('A NestJS template for future projects')
+    .setTitle('NestJS Prisma API')
+    .setDescription('A NestJS template for future projects using Prisma')
     .setVersion('0.1')
     .addBearerAuth()
     .build();
