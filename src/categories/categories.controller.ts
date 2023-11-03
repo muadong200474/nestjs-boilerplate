@@ -1,9 +1,15 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { Role } from '@prisma/client';
+import { RoleGuard } from 'src/auth/auth.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @Controller('api/v1/user/categories')
 @ApiTags('User-Categories')
+@Roles(Role.USER)
+@UseGuards(AuthGuard('jwt'), RoleGuard)
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 

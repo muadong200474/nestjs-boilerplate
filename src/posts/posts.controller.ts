@@ -6,14 +6,21 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from '@prisma/client';
+import { AuthGuard } from '@nestjs/passport';
+import { RoleGuard } from 'src/auth/auth.guard';
 
 @Controller('api/v1/user/posts')
 @ApiTags('User-Posts')
+@Roles(Role.USER)
+@UseGuards(AuthGuard('jwt'), RoleGuard)
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 

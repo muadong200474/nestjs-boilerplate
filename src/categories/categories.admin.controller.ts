@@ -6,14 +6,21 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateCagetoryDto } from './dto/create-category.dto';
 import { CategoriesService } from './categories.service';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { Role } from '@prisma/client';
+import { RoleGuard } from 'src/auth/auth.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @Controller('api/v1/admin/categories')
 @ApiTags('Admin-Categories')
+@Roles(Role.ADMIN)
+@UseGuards(AuthGuard('jwt'), RoleGuard)
 export class CategoriesAdminController {
   constructor(private readonly categoryService: CategoriesService) {}
 
