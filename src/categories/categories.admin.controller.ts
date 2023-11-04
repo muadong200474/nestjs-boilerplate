@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CreateCagetoryDto } from './dto/create-category.dto';
@@ -16,6 +17,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Role } from '@prisma/client';
 import { RoleGuard } from 'src/auth/auth.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { PaginationDto } from 'src/pagination/pagination.dto';
 
 @Controller('api/v1/admin/categories')
 @ApiTags('Admin-Categories')
@@ -26,8 +28,14 @@ export class CategoriesAdminController {
   constructor(private readonly categoryService: CategoriesService) {}
 
   @Get()
-  async findAll() {
-    return this.categoryService.findAll({});
+  async findAll(@Query() params: PaginationDto) {
+    return this.categoryService.findAll({
+      page: Number(params?.page),
+      limit: Number(params?.limit),
+      where: {
+        deleted: false,
+      },
+    });
   }
 
   @Post()
