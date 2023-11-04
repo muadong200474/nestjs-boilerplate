@@ -1,6 +1,9 @@
+import { Logger } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 export function loggingMiddleware(): Prisma.Middleware {
+  const logger = new Logger('Query execution time');
+
   return async (params, next) => {
     const before = Date.now();
 
@@ -8,7 +11,7 @@ export function loggingMiddleware(): Prisma.Middleware {
 
     const after = Date.now();
 
-    console.log(
+    logger.log(
       `Query ${params.model}.${params.action} took ${after - before}ms`,
     );
 
