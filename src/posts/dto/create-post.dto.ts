@@ -19,6 +19,10 @@ export class CreatePostDto {
   @IsNotEmpty()
   @Type(() => Number)
   @IsNumber({ allowNaN: false })
-  @ApiProperty()
+  @ApiProperty({ type: Number })
   authorId: number;
+
+  @IsNotEmpty()
+  @ApiProperty({ type: [Number] })
+  categoryIds: number[];
 }

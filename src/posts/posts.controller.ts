@@ -29,7 +29,17 @@ export class PostsController {
 
   @Post()
   create(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.create(createPostDto);
+    const { categoryIds, ...createData } = createPostDto;
+    return this.postsService.create({
+      ...createData,
+      categories: {
+        create: categoryIds.map((id) => ({
+          category: {
+            connect: { id },
+          },
+        })),
+      },
+    });
   }
 
   @Get('published')
@@ -57,9 +67,25 @@ export class PostsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
+    const { categoryIds, ...updateData } = updatePostDto;
     return this.postsService.update({
       where: { id: +id },
-      data: updatePostDto,
+      data:
+        categoryIds?.length > 0
+          ? {
+              ...updateData,
+              categories: {
+                deleteMany: {
+                  postId: +id,
+                },
+                createMany: {
+                  data: categoryIds.map((categoryId) => ({
+                    categoryId: categoryId,
+                  })),
+                },
+              },
+            }
+          : updateData,
     });
   }
 
