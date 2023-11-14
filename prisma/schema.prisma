@@ -28,7 +28,7 @@ model Post {
   content    String
   published  Boolean?            @default(false)
   author     User?               @relation(fields: [authorId], references: [id])
-  authorId   Int?
+  authorId   Int
   createdAt  DateTime            @default(now())
   updatedAt  DateTime            @updatedAt
   deleted    Boolean             @default(false)

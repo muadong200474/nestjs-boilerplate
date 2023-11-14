@@ -29,9 +29,12 @@ export class PostsController {
 
   @Post()
   create(@Body() createPostDto: CreatePostDto) {
-    const { categoryIds, ...createData } = createPostDto;
+    const { categoryIds, authorId, ...createData } = createPostDto;
     return this.postsService.create({
       ...createData,
+      author: {
+        connect: { id: authorId },
+      },
       categories: {
         create: categoryIds.map((id) => ({
           category: {
